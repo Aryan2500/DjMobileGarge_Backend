@@ -22,5 +22,7 @@ router.post("/email-verification/", emailVerification.sendVerificationLink);
 router.get("/verify-emailToken/:token", emailVerification.verifyEmail);
 
 router.post("/upload-avatar" ,checkToken, userController.uploadAvatar)
+
+router.get("/", checkToken , userController.getUserDetails)
 module.exports = router;
 

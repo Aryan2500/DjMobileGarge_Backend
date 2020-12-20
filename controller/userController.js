@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 const utility = require("../utility/uploadImage");
 const jwt = require("jsonwebtoken");
 
-
 //Create User
 exports.CreateNewUser = async function (req, res) {
   roles = {
@@ -42,6 +41,16 @@ exports.uploadAvatar = (req, res) => {
   User.findOneAndUpdate(
     { _id: res.locals.userData.userId },
     { image: res.locals.imageName },
-    {new:true}
+    { new: true }
   );
+};
+
+// Get One User
+exports.getUserDetails = (req, res) => {
+  
+  userDetails=User.findById(res.locals.userData.userId).select(
+    "name email image"   ).exec((err , user)=>{
+      res.status(200).json(user)
+    })
+    
 };
