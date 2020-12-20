@@ -21,6 +21,9 @@ const userSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  image:{
+    type:String
+  }
 });
 
 module.exports = mongoose.model("User", userSchema);

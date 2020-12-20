@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
-const path = require("path");
+const utility = require("../utility/uploadImage")
+
 
 //Create new Product
 exports.createNewProduct = function (req, res) {
@@ -36,28 +37,7 @@ exports.listAllProducts = (req, res) => {
 
 //Uploads File
 exports.uploadsFile = (req, res) => {
-  if (req.files != undefined) {
-    file = req.files.image;
-    console.log(file);
-    var time = Date.now();
-
-    var extname = path.extname(file.name);
-    var newbasename = path.basename(file.name, extname) + time;
-    var newName = (newbasename + extname).toLowerCase();
-
-    var extList = [".jpg", ".JPG", ".png", ".PNG"];
-    if (!extList.includes(extname)) {
-      return res.json({ error: "Only Jpg or Png file allowed" });
-    }
-    if (file.size > 200000) {
-      return res.json({ error: "file should be less than 200KB" });
-    }
-
-    file.mv("./public/uploads/products/" + newName);
-    res.json({ filename: newName });
-  } else {
-    res.json({ error: "No file provided" });
-  }
+  utility.UploadImage(req , res , "./public/uploads/products/")
 };
 
 //retrieve one Product and Update

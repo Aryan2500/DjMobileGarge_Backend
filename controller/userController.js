@@ -1,5 +1,10 @@
 const User = require("../models/User");
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+const utility = require("../utility/uploadImage");
+const jwt = require("jsonwebtoken");
+
+
+//Create User
 exports.CreateNewUser = async function (req, res) {
   roles = {
     ADMIN: 1,
@@ -9,7 +14,7 @@ exports.CreateNewUser = async function (req, res) {
   if (req.body.role == undefined) {
     var role = roles.USER;
   }
-  const hashPassword = await bcrypt.hash(req.body.password , 10)
+  const hashPassword = await bcrypt.hash(req.body.password, 10);
   console.log(role);
   User.create(
     {
@@ -24,9 +29,19 @@ exports.CreateNewUser = async function (req, res) {
       } else {
         res.json(data);
       }
-      
     }
   );
+};
 
-  // console.log(req.body)
+//Upload Avatar
+exports.uploadAvatar = (req, res) => {
+  utility.UploadImage(req, res, "./public/uploads/avatar/");
+  console.log(res.locals.imageName);
+
+  console.log(res.locals.userData);
+  User.findOneAndUpdate(
+    { _id: res.locals.userData.userId },
+    { image: res.locals.imageName },
+    {new:true}
+  );
 };
