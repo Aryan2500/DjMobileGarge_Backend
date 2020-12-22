@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const dbURL = "mongodb://localhost:27017/djmobilegarage"
+const dbURL = "mongodb+srv://arunmaurya2500:20060288816@cluster0.e0n1k.mongodb.net/DJ_Mobile_Garage?retryWrites=true&w=majority"
 mongoose.connect(dbURL ,{useNewUrlParser:true , useUnifiedTopology:true},(err)=>{
     if(!err){
         console.log('DB connection OK')

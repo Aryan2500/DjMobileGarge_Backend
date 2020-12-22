@@ -1,18 +1,21 @@
+require('./config/db') //DATABASE Connection
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-
+var cors = require("cors")
 
 var logger = require('morgan');
 var body_parser = require('body-parser')
-require('./config/db') //DATABASE Connection
+
 const getRouter = require('./routes/routesInitializer');
 const fileupload = require('express-fileupload');
 const getRoutes = require('./routes/routesInitializer');
+
 var app = express();
+
 app.use(body_parser.json())
- 
+app.use(cors()) 
 
 
 //File upload setup
