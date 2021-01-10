@@ -10,6 +10,7 @@ const CheckUserType = require("../middleware/auth/checUserMiddleware");
  */
 router.post(
   "/",
+  
   checkTokenmiddleware,
   CheckUserType.UserIsConstumer,
   appointmentValidator.Validate_Appointment,

@@ -16,8 +16,8 @@ findUserByEmail = function (email, callback) {
 
 // User Data Validation
 exports.validateUser = [
-  check("name", "enter your name").notEmpty(),
-  check("email").custom((value) => {
+  body("name", "enter your name").notEmpty(),
+  body("email").custom((value) => {
     return findUserByEmail(value).then((user) => {
       if (user) {
         return Promise.reject("E-mail already in use");
@@ -29,7 +29,7 @@ exports.validateUser = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty())
-      return res.status(422).json({ errors: errors.array() });
+      return res.status(409).json({ errors: errors.array() });
     next();
   },
 ];

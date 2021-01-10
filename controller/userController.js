@@ -26,7 +26,7 @@ exports.CreateNewUser = async function (req, res) {
       if (err) {
         res.json(err);
       } else {
-        res.json(data);
+        res.status(200).json("user created");
       }
     }
   );

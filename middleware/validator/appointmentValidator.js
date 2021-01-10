@@ -1,6 +1,7 @@
 const {body , validationResult} = require('express-validator')
 
 exports.Validate_Appointment = [
+    // console.log(body),
     body("title" , "title is required").notEmpty(),
     body("description" , "short description is required").notEmpty(),
     body("pick_up_date" , "Pick up date is required").notEmpty(),

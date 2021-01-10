@@ -9,11 +9,13 @@ const checkToken= require("../middleware/auth/checkTokenmiddleware")
 
 
 router.post(
-  "/register",
+  "/reg",
   emailValidator.emailValidator,
   userValidator.validateUser,
   userController.CreateNewUser
 );
+
+
 
 router.post("/login", emailValidator.emailValidator, authmiddleware.userLogin);
 
