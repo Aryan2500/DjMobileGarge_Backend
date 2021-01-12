@@ -3,8 +3,8 @@ const router = express.Router();
 const checkTokenmiddleware = require("../middleware/auth/checkTokenmiddleware");
 const appointmentController = require("../controller/appointmentController");
 const CheckUserType = require("../middleware/auth/checUserMiddleware");
-const emailValidator   = require("../middleware/validator/emailValidator")
-const authmiddleware = require("../middleware/auth/authmiddleware")
+const emailValidator = require("../middleware/validator/emailValidator");
+const authmiddleware = require("../middleware/auth/authmiddleware");
 /**
  * List All the Appointments
  */
@@ -15,7 +15,17 @@ router.get(
   appointmentController.AppointmentList
 );
 
-router.post("/login", emailValidator.emailValidator , authmiddleware.adminLogin);
+// Admin Login
+router.post("/login", emailValidator.emailValidator, authmiddleware.adminLogin);
+
+//Appointment Details
+router.get(
+  "/appointment/:id",
+  checkTokenmiddleware,
+  CheckUserType.UserIsAdmin,
+  appointmentController.AppointmentDetails
+);
+
 /**
  * List All the Approved Appointment
  */

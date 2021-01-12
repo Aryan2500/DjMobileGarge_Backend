@@ -58,6 +58,7 @@ exports.AppointmentList = (req, res) => {
   
 };
 
+//List all Unseen appointment
 exports.UnSeenAppointmentList = (req, res)=>{
   const options = {
     page: parseInt(req.query.page),
@@ -91,7 +92,7 @@ exports.approveAppointment = (req, res) => {
 };
 
 /**
- * Reject Appointment
+ *  Reject Appointment
  */
 exports.rejectAppointment = (req, res)=>{
     Appointment.findByIdAndUpdate(
@@ -170,4 +171,19 @@ exports.ListRepairedAppointment = (req , res)=>{
            
         }
     })
+}
+
+
+/**
+ * Give a single Appointment Details
+ */
+exports.AppointmentDetails = (req, res)=>{
+  Appointment.find({_id:req.params.id} , (err , data)=>{
+    if(err){
+      res.status(404).json({error:"Data not found"})
+    }else{
+      
+     res.status(200).json(data)
+    }
+  })
 }
