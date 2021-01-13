@@ -27,13 +27,13 @@ router.get(
 );
 
 /**
- * List All the Approved Appointment
+ * List All the Pending Appointment
  */
 router.get(
-  "/appointments/approved",
+  "/appointments/pending",
   checkTokenmiddleware,
   CheckUserType.UserIsAdmin,
-  appointmentController.ListApprovedAppointment
+  appointmentController.ListPendingAppointments
 );
 
 /**

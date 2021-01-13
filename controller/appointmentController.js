@@ -111,15 +111,28 @@ exports.rejectAppointment = (req, res)=>{
 }
 
 /**
- * List All Approved Appointment 
+ * List All Pending Appointment 
  */
-exports.ListApprovedAppointment = async(req, res) =>{
-   await Appointment.find({isApproved:true},(err , data)=>{
-        if(err){
-            return res.json(err)
+exports.ListPendingAppointments =(req, res) =>{
+  const options = {
+    page: parseInt(req.query.page),
+    limit: 10,
+    collation: {
+      locale: "en",
+    },
+  };
+  Appointment.paginate(Appointment.find({isRepaired:false , isApproved:true}), options, (err, data) => {
+      if(err){
+        res.status(404).json({msg:"data not found"})
+      }else{
+        if(data["docs"].length>0){
+          res.json(data)
+        }else{
+          res.status(404).json({msg:"data not found"})
         }
-        res.json(data)
-    })
+        
+      }
+  });
 }
 
 /**
