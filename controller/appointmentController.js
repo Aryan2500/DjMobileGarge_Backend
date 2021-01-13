@@ -163,15 +163,26 @@ exports.repairAppointment = (req , res)=>{
  * List Repaird Appointment
  */
 exports.ListRepairedAppointment = (req , res)=>{
-    Appointment.find({isRepaired:true},(err, data)=>{
-        if(data.length ===0){
-            res.json({error:"Data not found"})
-           
+  const options = {
+    page: parseInt(req.query.page),
+    limit: 10,
+    collation: {
+      locale: "en",
+    },
+  };
+  Appointment.paginate(Appointment.find({isRepaired:true}), options, (err, data) => {
+      if(err){
+        res.status(404).json({msg:"data not found"})
+      }else{
+        if(data["docs"].length>0){
+          res.json(data)
         }else{
-            res.json(data)
-           
+          res.status(404).json({msg:"data not found"})
         }
-    })
+        
+      }
+  });
+    
 }
 
 
