@@ -5,6 +5,8 @@ const appointmentController = require("../controller/appointmentController");
 const CheckUserType = require("../middleware/auth/checUserMiddleware");
 const emailValidator = require("../middleware/validator/emailValidator");
 const authmiddleware = require("../middleware/auth/authmiddleware");
+const User = require("../models/User");
+const Appointment = require("../models/Appointment");
 /**
  * List All the Appointments
  */
@@ -105,4 +107,80 @@ router.get(
   CheckUserType.UserIsAdmin,
   appointmentController.SearchAppointment
 );
+
+// =========================================================================================================================
+/**
+ *  Number of Tatal appointments
+ */
+router.get(
+  "/total-appointments",
+  checkTokenmiddleware,
+  CheckUserType.UserIsAdmin,
+  (req, res) => {
+    Appointment.find({}, (err, data) => {
+      return res.json({ total_appointments: data.length });
+    });
+  }
+);
+
+/**
+ *  Number of New Appointments
+ */
+
+router.get(
+  "/new-appointments",
+  checkTokenmiddleware,
+  CheckUserType.UserIsAdmin,
+  (req, res) => {
+    Appointment.find({ isSeen: false }, (err, data) => {
+      return res.json({ new_appointments: data.length });
+    });
+  }
+);
+
+/**
+ * Number of Pending Appointments
+ */
+router.get(
+  "/pending-appointments",
+  checkTokenmiddleware,
+  CheckUserType.UserIsAdmin,
+  (req, res) => {
+    Appointment.find({ isApproved: true, isRepaired: false }, (err, data) => {
+      return res.json({ pending_appointments: data.length });
+    });
+  }
+);
+// =====================================================Apppointment Routes Ends==============================================
+
+//========================================================User Count Routes===================================================
+
+/**
+ *  Number of Verified Users
+ */
+router.get(
+  "/verified-users",
+  checkTokenmiddleware,
+  CheckUserType.UserIsAdmin,
+  (req, res) => {
+    User.find({ role: 3, isEmailVerified: true }, (err, data) => {
+      return res.json({ verified_users: data.length });
+    });
+  }
+);
+
+/**
+ *  Number of Total Users
+ */
+router.get(
+  "/total-users",
+  checkTokenmiddleware,
+  CheckUserType.UserIsAdmin,
+  (req, res) => {
+    User.find({ role: 3 }, (err, data) => {
+      return res.json({ all_users: data.length });
+    });
+  }
+);
+
 module.exports = router;
