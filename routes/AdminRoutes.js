@@ -96,4 +96,13 @@ router.patch(
   appointmentController.repairAppointment
 );
 
+/**
+ *  Search Appointments
+ */
+router.get(
+  "/appointments/search/:text",
+  checkTokenmiddleware,
+  CheckUserType.UserIsAdmin,
+  appointmentController.SearchAppointment
+);
 module.exports = router;

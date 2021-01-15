@@ -212,3 +212,35 @@ exports.AppointmentDetails = (req, res)=>{
     }
   })
 }
+
+/**
+ * Search Appointment
+ */
+exports.SearchAppointment = (req, res)=>{
+  const options = {
+    page: parseInt(req.query.page),
+    limit: 10,
+    collation: {
+      locale: "en",
+    },
+  };
+  text = req.params.text
+  console.log(text)
+  // Appointment.find({appointment_number: new RegExp(text , 'i') } , (err, data)=>{
+  //   console.log(data)
+  //   console.log(err)
+  // })
+  
+  Appointment.paginate(Appointment.find({appointment_number: new RegExp(text , 'i') }) , options ,(err , data)=>{
+    if(err){
+      res.status(404).json({msg:err})
+    }else{
+      if(data["docs"].length>0){
+        console.log(data['docs'])
+        res.json(data)
+      }else{
+        res.status(404).json({msg:"data not found"})
+      }
+    }
+  } )
+}
