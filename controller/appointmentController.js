@@ -8,8 +8,8 @@ exports.CreateAppointment = (req, res) => {
   const appointment_number = "DJMOBILEGARAGE_" + Date.now().toString().slice(-9, -1);
   console.log(appointment_number);
 
-  console.log(req.body)
-  console.log(req.files)
+  // console.log(req.body)
+  // console.log(req.files)
   
   uploadImg.UploadImage(req , res , './public/uploads/appointments/')
   console.log(res.locals.imageName)
@@ -53,11 +53,13 @@ exports.AppointmentList = (req, res) => {
   };
   console.log(user.userId)
   if(role===3){
-    Appointment.paginate(Appointment.find({user_Id:user.userId}), options, (err, data) => {
+    Appointment.paginate(Appointment.find({user_Id:user.userId}, null , {sort:{created_on:-1}}), options, (err, data) => {
+        console.log(err)
+        console.log(data)
         return res.json(data);
       });
   }else if(role===1){
-    Appointment.paginate(Appointment.find(), options, (err, data) => {
+    Appointment.paginate(Appointment.find({}, null , {sort:{created_on:-1}}), options, (err, data) => {
         res.json(data);
       });
 
@@ -74,7 +76,7 @@ exports.UnSeenAppointmentList = (req, res)=>{
       locale: "en",
     },
   };
-  Appointment.paginate(Appointment.find({isSeen:false}), options, (err, data) => {
+  Appointment.paginate(Appointment.find({isSeen:false}, null , {sort:{created_on:-1}}), options, (err, data) => {
     res.json(data);
   });
 
@@ -127,7 +129,7 @@ exports.ListPendingAppointments =(req, res) =>{
       locale: "en",
     },
   };
-  Appointment.paginate(Appointment.find({isRepaired:false , isApproved:true}), options, (err, data) => {
+  Appointment.paginate(Appointment.find({isRepaired:false , isApproved:true}, null , {sort:{created_on:-1}}), options, (err, data) => {
       if(err){
         res.status(404).json({msg:"data not found"})
       }else{
@@ -189,7 +191,7 @@ exports.ListRepairedAppointment = (req , res)=>{
       locale: "en",
     },
   };
-  Appointment.paginate(Appointment.find({isRepaired:true}), options, (err, data) => {
+  Appointment.paginate(Appointment.find({isRepaired:true}, null , {sort:{created_on:-1}}), options, (err, data) => {
       if(err){
         res.status(404).json({msg:"data not found"})
       }else{
@@ -231,12 +233,7 @@ exports.SearchAppointment = (req, res)=>{
     },
   };
   text = req.params.text
-  console.log(text)
-  // Appointment.find({appointment_number: new RegExp(text , 'i') } , (err, data)=>{
-  //   console.log(data)
-  //   console.log(err)
-  // })
-  
+  // console.log(text)    
   Appointment.paginate(Appointment.find({appointment_number: new RegExp(text , 'i') }) , options ,(err , data)=>{
     if(err){
       res.status(404).json({msg:err})
