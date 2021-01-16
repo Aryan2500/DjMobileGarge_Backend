@@ -13,15 +13,16 @@ exports.UploadImage = (req, res ,Dirpath) => {
 
     var extList = [".jpg", ".JPG", ".png", ".PNG"];
     if (!extList.includes(extname)) {
-      return res.json({ error: "Only Jpg or Png file allowed" });
+      return res.status(401).json({ error: "Only Jpg or Png file allowed" });
     }
     if (file.size > 200000) {
-      return res.json({ error: "file should be less than 200KB" });
+      return res.status(401).json({ error: "file should be less than 200KB" });
     }
     file.mv(Dirpath + newName);
     res.locals.imageName = newName
-    res.json({ filename: newName });
-  }else {
-    res.status(400).json({ error: "No file provided" });
+    // res.json({ filename: newName });
   }
+  // else {
+  //   res.status(400).json({ error: "No file provided" });
+  // }
 };

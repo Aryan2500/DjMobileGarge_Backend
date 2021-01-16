@@ -1,5 +1,5 @@
 const Appointment = require("../models/Appointment");
-
+const uploadImg = require('../utility/uploadImage')
 
 /**
  * Create Appointment 
@@ -7,11 +7,17 @@ const Appointment = require("../models/Appointment");
 exports.CreateAppointment = (req, res) => {
   const appointment_number = "DJMOBILEGARAGE_" + Date.now().toString().slice(-9, -1);
   console.log(appointment_number);
+
+  console.log(req.body)
+  console.log(req.files)
+  
+  uploadImg.UploadImage(req , res , './public/uploads/appointments/')
+  console.log(res.locals.imageName)
   Appointment.create(
     {
       problem_Title: req.body.title,
       problem_Desciption: req.body.description,
-      problem_Image: req.body.image,
+      problem_Image: res.locals.imageName,
       pickup_Date: req.body.pick_up_date,
       pickup_Time: req.body.pick_up_time,
       user_Address: req.body.address,
