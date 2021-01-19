@@ -52,6 +52,9 @@ const AppointmentSchema = mongoose.Schema({
     created_on :{
         type:Date,
         default: Date.now()
+    },
+    repairing_cost:{
+        type:String
     }
 
 })

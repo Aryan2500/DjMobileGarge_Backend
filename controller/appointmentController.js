@@ -86,14 +86,17 @@ exports.UnSeenAppointmentList = (req, res)=>{
  * Approve Appointment
  */
 exports.approveAppointment = (req, res) => {
+  console.log(req.body.repairing_cost)
+  // return
   Appointment.findOneAndUpdate(
     { _id: req.params.id },
-    { isApproved: true , isSeen:true},
+    { isApproved: true , isSeen:true , repairing_cost:req.body.repairing_cost},
     {new:true},
     (errObj, data) => {
       if (errObj) {
         res.json({ errors: errObj.errors });
       } else {
+        
         res.json(data);
       }
     }
