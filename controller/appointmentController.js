@@ -55,12 +55,23 @@ exports.AppointmentList = (req, res) => {
   if(role===3){
     Appointment.paginate(Appointment.find({user_Id:user.userId}, null , {sort:{created_on:-1}}), options, (err, data) => {
         console.log(err)
+
+        if(data['docs'].length ==0){
+          data['docs'] = null
+        }
         console.log(data)
+        // return
         return res.json(data);
       });
   }else if(role===1){
     Appointment.paginate(Appointment.find({}, null , {sort:{created_on:-1}}), options, (err, data) => {
-        res.json(data);
+      
+        if(data['docs'].length ==0){
+          data['docs'] = null
+        }
+        console.log(data)
+        // return
+        return res.json(data);
       });
 
   }
