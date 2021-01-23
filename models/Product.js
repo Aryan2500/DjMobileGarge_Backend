@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const mongoosePaginate = require('mongoose-paginate-v2');
 
 const productSchema = mongoose.Schema({
+    category:{
+        type: mongoose.Schema.Types.ObjectId,
+        required:true
+    },
     name:{
         type:String,
         required:[true , "product name is required"]
@@ -14,12 +18,17 @@ const productSchema = mongoose.Schema({
         type:String,
         required:[true, "description is required"]
     },
+
     image:{
         type:String,
         },
     date: {
         type:Date,
         default: Date.now()
+    },
+    isAvailable:{
+        type:Boolean,
+        default:true
     }
 
 })

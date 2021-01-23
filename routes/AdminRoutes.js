@@ -7,6 +7,7 @@ const emailValidator = require("../middleware/validator/emailValidator");
 const authmiddleware = require("../middleware/auth/authmiddleware");
 const User = require("../models/User");
 const Appointment = require("../models/Appointment");
+const cat_controller = require('../controller/categoryController')
 /**
  * List All the Appointments
  */
@@ -183,4 +184,25 @@ router.get(
   }
 );
 
+
+/**
+ * Category route
+ */
+
+router.post('/category', cat_controller.AddCategory )
+
+
+/**
+ * Category List
+ */
+router.get('/category' , cat_controller.ListCategory)
+
+/**
+ * Category Update
+ */
+router.put('/category' , cat_controller.EditCategory)
+/**
+ * Category Delete
+ */
+router.delete('/category/:id' , cat_controller.DeleteCategory)
 module.exports = router;
