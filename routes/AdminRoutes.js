@@ -6,6 +6,7 @@ const CheckUserType = require("../middleware/auth/checUserMiddleware");
 const emailValidator = require("../middleware/validator/emailValidator");
 const authmiddleware = require("../middleware/auth/authmiddleware");
 const User = require("../models/User");
+const productController = require('../controller/productController')
 const Appointment = require("../models/Appointment");
 const cat_controller = require('../controller/categoryController')
 /**
@@ -154,7 +155,7 @@ router.get(
 );
 // =====================================================Apppointment Routes Ends==============================================
 
-//========================================================User Count Routes===================================================
+//========================================================User Data Count Routes===================================================
 
 /**
  *  Number of Verified Users
@@ -183,7 +184,10 @@ router.get(
     });
   }
 );
+//========================================================User Data Count Routes End===================================================
 
+
+//========================================================Category Routes===================================================
 
 /**
  * Category route
@@ -205,4 +209,32 @@ router.put('/category' , cat_controller.EditCategory)
  * Category Delete
  */
 router.delete('/category/:id' , cat_controller.DeleteCategory)
+
+//========================================================Category Routes Ends ===================================================
+
+
+// ========================================Product Routes===================================
+
+/**
+ * Create Product
+ */
+router.post("/product", checkTokenmiddleware ,CheckUserType.UserIsAdmin, productController.createNewProduct);
+
+/**
+ * File Upload
+ */
+router.post("/media-upload", checkTokenmiddleware ,CheckUserType.UserIsAdmin, productController.uploadsFile);
+
+/**
+ * Update Product
+ */
+router.put("/product/:id",checkTokenmiddleware, CheckUserType.UserIsAdmin,productController.productUpdate);
+
+/**
+ * Delete Product
+ */
+router.delete("/product/:id", checkTokenmiddleware ,CheckUserType.UserIsAdmin, productController.productDelete)
+
+// ====================================================Product Route Ends==============================================================
+
 module.exports = router;

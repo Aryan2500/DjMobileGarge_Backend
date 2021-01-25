@@ -28,7 +28,7 @@ const productSchema = mongoose.Schema({
     },
     isAvailable:{
         type:Boolean,
-        default:true
+       
     }
 
 })

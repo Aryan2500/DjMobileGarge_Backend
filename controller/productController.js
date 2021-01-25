@@ -4,18 +4,25 @@ const utility = require("../utility/uploadImage")
 
 //Create new Product
 exports.createNewProduct = function (req, res) {
+
+  // console.log(req.files)
+  console.log(req.body)
+ 
+  utility.UploadImage(req , res , './public/uploads/products/')
   Product.create(
     {
       name: req.body.name,
       price: req.body.price,
-      image: req.body.image,
+      image: res.locals.imageName,
       description: req.body.description,
+      isAvailable : req.body.isAvailable,
+      category : req.body.category
     },
     (errorObj, product) => {
       if (errorObj) {
         res.status(400).json({ errors: errorObj.errors });
       } else {
-        res.json({ product: product });
+        res.json({  product });
       }
     }
   );

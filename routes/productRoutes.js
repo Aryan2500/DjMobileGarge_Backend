@@ -9,25 +9,4 @@ const CheckUserType = require("../middleware/auth/checUserMiddleware");
 router.get('/' , productController.listAllProducts)
 
 
-/**
- * Create New Product
- */
-router.post("/", checkToken ,CheckUserType.UserIsAdmin, productController.createNewProduct);
-
-/**
- * File Upload
- */
-router.post("/media-upload", checkToken ,CheckUserType.UserIsAdmin, productController.uploadsFile);
-
-/**
- * Update Product
- */
-router.put("/:id",checkToken, CheckUserType.UserIsAdmin,productController.productUpdate);
-
-/**
- * Delete Product
- */
-router.delete("/:id", checkToken ,CheckUserType.UserIsAdmin, productController.productDelete)
-
-
 module.exports = router;
