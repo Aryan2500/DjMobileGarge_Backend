@@ -220,11 +220,7 @@ router.delete('/category/:id' , cat_controller.DeleteCategory)
  */
 router.post("/product", checkTokenmiddleware ,CheckUserType.UserIsAdmin, productController.createNewProduct);
 
-/**
- * File Upload
- */
-router.post("/media-upload", checkTokenmiddleware ,CheckUserType.UserIsAdmin, productController.uploadsFile);
-
+ 
 /**
  * Update Product
  */
@@ -235,6 +231,10 @@ router.put("/product/:id",checkTokenmiddleware, CheckUserType.UserIsAdmin,produc
  */
 router.delete("/product/:id", checkTokenmiddleware ,CheckUserType.UserIsAdmin, productController.productDelete)
 
+/**
+ * Get Single PRoduct
+ */
+router.get("/product/:id" , checkTokenmiddleware ,CheckUserType.UserIsAdmin , productController.getSingleProduct)
 // ====================================================Product Route Ends==============================================================
 
 module.exports = router;
